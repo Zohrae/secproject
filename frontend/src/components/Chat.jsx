@@ -395,7 +395,7 @@ const Chat = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCreationModalOpen, setIsCreationModalOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const [newChatroom, setNewChatroom] = useState({
     name: '',
     description: '',
@@ -426,7 +426,8 @@ const Chat = () => {
 
     const fetchMessages = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/messages?chatroomId=${chatroomId}`);
+        const response = await fetch(`${API_URL}/api/messages?chatroomId=${chatroomId}`);
+
         if (response.ok) {
           const data = await response.json();
           setMessages(data);
@@ -439,8 +440,9 @@ const Chat = () => {
     };
 
     fetchMessages();
+    // const ws = new WebSocket(`ws://localhost:8080/chat?chatroomId=${chatroomId}`); // Include chatroom ID in the WebSocket URL
+    const ws = new WebSocket(`ws://${API_URL.replace("http://", "")}/chat?chatroomId=${chatroomId}`);
 
-    const ws = new WebSocket(`ws://localhost:8080/chat?chatroomId=${chatroomId}`); // Include chatroom ID in the WebSocket URL
     ws.onopen = () => console.log('WebSocket connecté');
     ws.onmessage = (event) => {
       const receivedMessage = JSON.parse(event.data);
@@ -483,7 +485,7 @@ const Chat = () => {
         };
 
         try {
-            const response = await fetch('http://localhost:8080/api/messages', {
+          const response = await fetch(`${API_URL}/api/messages`,  {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(messagePayload),
@@ -506,7 +508,7 @@ useEffect(() => {
   const fetchAllowedUsers = async () => {
     try {
       const chatroomId = localStorage.getItem('chatroomId');
-      const response = await fetch(`http://localhost:8080/api/chatrooms/${chatroomId}/allowed-users`);
+      const response = await fetch(`${API_URL}/api/chatrooms/${chatroomId}/allowed-users`);
       if (response.ok) {
         const data = await response.json();
         setAllowedUsers(data);
@@ -570,7 +572,7 @@ useEffect(() => {
     const chatroomId = localStorage.getItem('chatroomId');
   
     try {
-        const response = await fetch(`http://localhost:8080/api/chatrooms/${chatroomId}/quitter/${userId}`, {
+        const response = await fetch(`${API_URL}/api/chatrooms/${chatroomId}/quitter/${userId}`, {
             method: 'PUT',
         });
   
@@ -596,7 +598,7 @@ useEffect(() => {
   
   const addChatroom = async () => {
     try {
-      const response = await fetch('http://localhost:8080/api/chatrooms', {
+      const response = await fetch(`${API_URL}/api/chatrooms`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newChatroom),
@@ -630,7 +632,7 @@ useEffect(() => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/utilisateurs');
+        const response = await fetch(`${API_URL}/api/utilisateurs`);
         if (response.ok) {
           const data = await response.json();
           setAllUsers(data);
@@ -650,7 +652,7 @@ useEffect(() => {
       const chatroomId = localStorage.getItem('chatroomId');
       const userId = localStorage.getItem('userId');
       try {
-        const response = await fetch(`http://localhost:8080/api/chatrooms/${chatroomId}/is-admin?userId=${userId}`);
+        const response = await fetch(`${API_URL}/api/chatrooms/${chatroomId}/is-admin?userId=${userId}`);
         if (response.ok) {
           const isAdmin = await response.json();
           setIsAdmin(isAdmin);

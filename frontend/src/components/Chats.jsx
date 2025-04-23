@@ -238,7 +238,7 @@ const Chats = () => {
     const [chatrooms, setChatrooms] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0); // Index pour gérer le carrousel
     const userId = localStorage.getItem('userId'); // Récupérer l'utilisateur connecté
-  
+    const API_URL = import.meta.env.VITE_API_URL;
     useEffect(() => {
       const userId = localStorage.getItem('userId');
       const userName = localStorage.getItem('userName');
@@ -251,7 +251,7 @@ const Chats = () => {
     useEffect(() => {
       const fetchChatrooms = async () => {
         try {
-          const response = await fetch(`http://localhost:8080/api/chatrooms/for-notuser/${userId}`);
+          const response = await fetch(`${API_URL}/api/chatrooms/for-notuser/${userId}`);
           if (response.ok) {
             const data = await response.json();
             const filteredChatrooms = data.filter(chatroom => 
@@ -296,7 +296,7 @@ const Chats = () => {
 
     const handleJoinChatroom = async (chatroomId) => {
         try {
-          await fetch(`http://localhost:8080/api/chatrooms/${chatroomId}/join/${userId}`, {
+          await fetch(`${API_URL}/api/chatrooms/${chatroomId}/join/${userId}`, {
             method: "PUT",
           });
           // Optionally, update the chatrooms state to reflect the change

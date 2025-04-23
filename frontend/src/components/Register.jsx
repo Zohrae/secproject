@@ -110,7 +110,7 @@ const Register = () => {
   });
 
   const [error, setError] = useState('');
-
+  const API_URL = import.meta.env.VITE_API_URL;
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (newUser.mdp !== newUser.confirmMdp) {
@@ -118,7 +118,7 @@ const Register = () => {
       return;
     }
 
-    fetch('http://localhost:8080/api/utilisateurs', {
+    fetch(`${API_URL}/api/utilisateurs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -10,9 +10,9 @@ const Users = () => {
         mdp: '',
         role: 'USER', // Rôle par défaut
     });
-
+    const API_URL = import.meta.env.VITE_API_URL;
     useEffect(() => {
-        fetch('http://localhost:8080/api/utilisateurs') // Remplacez par l'URL de votre backend si différent
+        fetch(`${API_URL}/api/utilisateurs`) 
             .then((response) => response.json())
             .then((data) => setUsers(data))
             .catch((error) =>
@@ -30,7 +30,7 @@ const Users = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        fetch('http://localhost:8080/api/utilisateurs', {
+        fetch(`${API_URL}/api/utilisateurs`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

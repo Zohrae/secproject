@@ -225,7 +225,7 @@ const Profil = () => {
   const [isProfilModalOpen, setIsProfilModalOpen] = useState(false);
   const [chatrooms, setChatrooms] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0); // Index pour gérer le carrousel
-
+  const API_URL = import.meta.env.VITE_API_URL;
   // Vérification de l'authentification utilisateur
   useEffect(() => {
     const userId = localStorage.getItem('userId');
@@ -241,7 +241,7 @@ const Profil = () => {
     const fetchChatrooms = async () => {
       try {
         const userId = localStorage.getItem('userId'); // Récupérer l'utilisateur connecté
-        const response = await fetch(`http://localhost:8080/api/chatrooms/for-user/${userId}`);
+        const response = await fetch(`${API_URL}/api/chatrooms/for-user/${userId}`);
         if (response.ok) {
           const data = await response.json();
           setChatrooms(data); // Filtrer les chatrooms pour cet utilisateur

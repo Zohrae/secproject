@@ -8,7 +8,7 @@ const Chatrooms = () => {
   const [askingUsers, setAskingUsers] = useState([]); // Nouvel état pour les utilisateurs demandant l'accès
   const [adminId, setAdminId] = useState(""); // Nouvel état pour l'administrateur
   const [chatrooms, setChatrooms] = useState([]);
-
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     fetchUsers();
     fetchChatrooms();
@@ -16,7 +16,8 @@ const Chatrooms = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/utilisateurs");
+      const response = await fetch(`${API_URL}/api/utilisateurs`);
+
       const data = await response.json();
       setUsers(data);
     } catch (error) {
@@ -26,7 +27,7 @@ const Chatrooms = () => {
 
   const fetchChatrooms = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/chatrooms");
+      const response = await fetch(`${API_URL}/api/chatrooms`);
       const data = await response.json();
       setChatrooms(data);
     } catch (error) {
@@ -37,7 +38,7 @@ const Chatrooms = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const chatroomResponse = await fetch("http://localhost:8080/api/chatrooms", {
+      const chatroomResponse = await fetch(`${API_URL}/api/chatrooms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

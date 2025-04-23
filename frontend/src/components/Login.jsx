@@ -160,11 +160,11 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [chatrooms, setChatrooms] = useState([]);
   const navigate = useNavigate();
-
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchChatrooms = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/chatrooms');
+        const response = await fetch(`${API_URL}/api/chatrooms`);
         if (response.ok) {
           const data = await response.json();
           setChatrooms(data);
@@ -177,7 +177,7 @@ const Login = () => {
     };
 
     fetchChatrooms();
-  }, []);
+  }, [API_URL]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -204,7 +204,7 @@ const Login = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/auth/login', {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

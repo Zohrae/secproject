@@ -356,7 +356,7 @@ const MyChats = () => {
   const [currentIndex, setCurrentIndex] = useState(0); // Index pour gérer le carrousel
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedChatroom, setSelectedChatroom] = useState(null); // State to hold selected chatroom data
-
+  const API_URL = import.meta.env.VITE_API_URL;
   // Vérification de l'authentification utilisateur
   useEffect(() => {
     const userId = localStorage.getItem('userId');
@@ -372,7 +372,8 @@ const MyChats = () => {
     const fetchChatrooms = async () => {
       try {
         const userId = localStorage.getItem('userId'); // ID de l'utilisateur connecté
-        const response = await fetch(`http://localhost:8080/api/chatrooms/admin/${userId}`);
+        const response = await fetch(`${API_URL}/api/chatrooms/admin/${userId}`);
+
         if (response.ok) {
           const data = await response.json();
           setChatrooms(data); // Mettre à jour les chatrooms
@@ -424,7 +425,7 @@ const MyChats = () => {
 
   const handleRemoveUser = async (userId) => {
     try {
-      await fetch(`http://localhost:8080/api/chatrooms/${selectedChatroom.id}/quitter/${userId}`, {
+      await fetch(`${API_URL}/api/chatrooms/${selectedChatroom.id}/quitter/${userId}`, {
         method: 'PUT',
       });
       setSelectedChatroom((prev) => ({
@@ -438,7 +439,7 @@ const MyChats = () => {
 
   const handleApproveUser = async (userId) => {
     try {
-      await fetch(`http://localhost:8080/api/chatrooms/${selectedChatroom.id}/approve/${userId}`, {
+      await fetch(`${API_URL}/api/chatrooms/${selectedChatroom.id}/approve/${userId}`, {
         method: 'PUT',
       });
       setSelectedChatroom((prev) => ({

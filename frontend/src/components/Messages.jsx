@@ -7,22 +7,22 @@ const Messages = () => {
         contenu: '',
         expediteur: ''
     });
-
+    const API_URL = import.meta.env.VITE_API_URL;
     // Récupérer les messages depuis le backend
     useEffect(() => {
-        fetch('http://localhost:8080/api/messages')
+        fetch(`${API_URL}/api/messages`)
             .then(response => response.json())
             .then(data => setMessages(data))
             .catch(error => console.error('Erreur lors de la récupération des messages:', error));
-    }, []);
+    }, [API_URL]);
 
     // Récupérer les utilisateurs depuis le backend
     useEffect(() => {
-        fetch('http://localhost:8080/api/utilisateurs')
+        fetch(`${API_URL}/api/utilisateurs`)
             .then(response => response.json())
             .then(data => setUsers(data))
             .catch(error => console.error('Erreur lors de la récupération des utilisateurs:', error));
-    }, []);
+    }, [API_URL]);
 
     // Gestion de l'envoi du formulaire
     const handleInputChange = (e) => {
@@ -35,7 +35,7 @@ const Messages = () => {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
-        fetch('http://localhost:8080/api/messages', {
+        fetch(`${API_URL}/api/messages`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
